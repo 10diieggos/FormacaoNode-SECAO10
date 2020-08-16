@@ -6,12 +6,18 @@ function sendEmail(body, To, callback) {
     ${body}
     ----------------------------
     `)
-    callback();
+    callback('sucesso', 5, '3 segundos');
   }, 3000);
 }
 
-let successMessage = () => {
-  console.log('Email enviado com sucesso!!!')
+let successMessage = (status, amount, time) => {
+  console.log(`
+  Enviado com ${status}
+  ---
+  para ${amount} destinatários
+  ---
+  após ${time}
+  `)
 };
 
 console.log('Enviando e-mail...');
