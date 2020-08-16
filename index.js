@@ -1,14 +1,19 @@
-function sendEmail(body, To) {
+function sendEmail(body, To, callback) {
   setTimeout(() => {
     console.log(`
     Para: ${To}
     ----------------------------
     ${body}
     ----------------------------
-    `);
-  }, 8000);
+    `)
+    callback();
+  }, 3000);
 }
 
-console.log('Enviando e-mail');
-sendEmail("Seja bem vindo ao IAmDev", "Macielly")
-console.log('Seu email deve chegar em minutos');
+let successMessage = () => {
+  console.log('Email enviado com sucesso!!!')
+};
+
+console.log('Enviando e-mail...');
+sendEmail("Seja bem vindo ao IAmDev", "Macielly", successMessage)
+
