@@ -1,21 +1,20 @@
-/* Quando usamos callback, as falhas são tratadas com parâmetros */
-function sendEmail(body, To, callback) {
-  setTimeout(() => {
-    //lógica do envio do e-mail...
-    let error = true;
-    
-    if (error) {
-      callback(3, 'Falhou');      
-    } else {
-      callback(3, 'Enviado com sucesso');
-    }
-  }, 3000);
-}
-//successMessage é uma função que é passada como parâmetro na chamada da função sendEmail
-let successMessage = (time, error) => {
-  console.log(`${error} após ${time} seg`)
+function sendEmail(body, to) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let error = true;
+      if (error) {
+        reject();
+      } else {
+        resolve();
+      };
+    }, 3000);
+  });
 };
 
-sendEmail("Seja bem vindo ao IAmDev", "Macielly", successMessage)
-console.log('Enviando e-mail...');//esta menssagem é assincrona. Ela é executada antes do término da execução de sendEmail
+sendEmail("Olá Diego", "Diego").then(() => {
+  console.log('Promise resolvida');
+}).catch(() => {
+  console.log('Promise rejeitada');  
+});
 
+console.log('Enviando email em 3 seg ...');
