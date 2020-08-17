@@ -17,7 +17,7 @@ function checkUser(id) {
 function sendEmail(body) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      let error = false;
+      let error = true;
       if (error) {
         reject("A fila está cheia, envio falhou");
       } else {
@@ -31,17 +31,23 @@ function sendEmail(body) {
 async function exec () {
   let id = await takeUser();
   let to = await checkUser();
-  let email = await sendEmail('Parabéns, você conseguiu');
-  console.log(`
-      Enviado após ${email.time} seg.
-      -------
-      Para: ${to.to}
-      -------
-      Mensagem:
-      ${email.body}
-      -------
-      Id do usuário: ${id.id}
-      `);
+  
+  try {
+    let email = await sendEmail('Parabéns, você conseguiu');
+    console.log(`
+        Enviado após ${email.time} seg.
+        -------
+        Para: ${to.to}
+        -------
+        Mensagem:
+        ${email.body}
+        -------
+        Id do usuário: ${id.id}
+        `);
+  } catch (error) {
+    console.log(error);
+  }
+  
 };
 
 exec();
