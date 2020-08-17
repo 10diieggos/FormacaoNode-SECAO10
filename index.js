@@ -1,24 +1,47 @@
-function sendEmail(body, to) {
+function takeUser() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      let error = false;
+      resolve({id: 5});
+    }, 2000);
+  });
+};
+
+function checkUser(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({to: '10diieggos@gmail.com'})
+    }, 2000);
+  });
+};
+
+function sendEmail(body) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let error = true;
       if (error) {
-        reject("A fila está cheia, envio falhou");//Aceita um único parêmetro, que pode ser um objeto
+        reject("A fila está cheia, envio falhou");
       } else {
-        resolve({time: 3, to: '10diieggos@gmail.com'});//Aceita um único parêmetro, que pode ser um objeto
+        resolve({time: 7, body});
       };
     }, 3000);
   });
 };
 
-sendEmail("Olá Diego", "Diego").then(({ time, to }) => {//Aqui os parâmetros foram passados utilizando o operador de desestruturação.
-  console.log(`
-  Enviado após ${time} seg
-  ------------------------
-  Para ${to}  
-  `);
-}).catch(() => {
-  console.log('Promise rejeitada');  
+takeUser().then(({ id }) => {
+  checkUser(id).then(({ to }) => {
+    sendEmail('Parabéns, você conseguiu', to).then(({ time, body }) => {
+      console.log(`
+      Enviado após ${time} seg.
+      -------
+      Para: ${to}
+      -------
+      Mensagem:
+      ${body}
+      -------
+      Id do usuário: ${id}
+      `);
+    }).catch((error) => {console.log(error)})
+  })
 });
 
-console.log('Enviando email em 3 seg ...');
+console.log('Enviando email...')
