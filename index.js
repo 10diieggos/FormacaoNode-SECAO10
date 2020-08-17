@@ -1,18 +1,49 @@
-function takeUsers() {
+function takeUser() {
   return new Promise((resolve, reject) => {
-    resolve([{ name: 'Diego', lang: 'JS' },
-      { name: 'Richard', lang: 'Python' },
-      { name: 'Lemos', lang: 'PHP' }
-    ]);
+    setTimeout(() => {
+      resolve({id: 5});
+    }, 2000);
   });
 };
 
-async function principal() {
-  let users = await takeUsers()
-  console.log(users)
-  console.log('Esta foi bloqueada até o fim da principal')
-}
+function checkUser(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({to: '10diieggos@gmail.com'})
+    }, 2000);
+  });
+};
 
-principal()
+function sendEmail(body) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let error = false;
+      if (error) {
+        reject("A fila está cheia, envio falhou");
+      } else {
+        resolve({time: 7, body});
+      };
+    }, 3000);
+  });
+};
 
-console.log('Esta mensagem não foi bloqueada')
+
+async function exec () {
+  let id = await takeUser();
+  let to = await checkUser();
+  let email = await sendEmail('Parabéns, você conseguiu');
+  console.log(`
+      Enviado após ${email.time} seg.
+      -------
+      Para: ${to.to}
+      -------
+      Mensagem:
+      ${email.body}
+      -------
+      Id do usuário: ${id.id}
+      `);
+};
+
+exec();
+
+console.log('Enviando email...');
